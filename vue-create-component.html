@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <button-counter />
+    <my-component />
+  </div>
+</body>
+
+</html>
+
+<script>
+  
+// ** 结论 **//
+// ** Vue.component 是注册资源 **//
+// ** Vue.extend 返回的是扩展实例构造器，就是预设了部分选项的Vue实例构造器 **//
+
+// new vue 如果放在这里会报错
+// error: Unknown custom element: <button-counter> - did you register the component correctly? 
+// For recursive components, make sure to provide the "name" option.
+// new Vue({el: '#root'});
+
+// Vue.component为全局注册，也就是在他们注册之后，可以用在任何新建的vue实例中
+Vue.component('button-counter', {
+  data() {
+    return {
+      count: 0
+    }
+  },
+  template: '<button ref="testComponentRenderTime" @click="count++">click me {{count}} </button>'
+})
+
+// Vue.extend 返回的是一个“扩展实例构造器”，也就是一个预设了部分选项的 Vue 实例构造器
+// 所以Vue.component('button-counter', {}) === Vue.component('button-counter', Vue.extend({}))
+var MyComponent = Vue.extend({
+  template: '<p>A custom component!</p>'
+})
+Vue.component('my-component', MyComponent)
+
+new Vue({
+  el: '#root',
+  data() {
+    return {
+      testDataRenderTime: 1
+    }
+  },
+  beforeCreate(){console.log(this.$refs.testComponentRenderTime, this.testDataRenderTime)},
+  created(){console.log(this.$refs.testComponentRenderTime, this.testDataRenderTime)},
+  beforeMount(){console.log(this.$refs.testComponentRenderTime, this.testDataRenderTime)},
+  mounted(){console.log(this.$refs.testComponentRenderTime, this.testDataRenderTime)},
+});
+
+
+</script>
+
+<!-- 理解 Vue.extend() 和 Vue.component() 的区别非常重要。由于 Vue 本身是一个构造函数， Vue.extend() 是一个类继承方法。它用来创建一个 Vue 的子类并返回其构造函数。而另一方面，Vue.component() 是一个类似 Vue.directive() 和 Vue.filter() 的资源注册方法。它作用是建立指定的构造函数与 ID 字符串间的关系，从而让 Vue.js 能在模板中使用它。直接向 Vue.component() 传递 options 时，它会在内部调用 Vue.extend()。
+
+Vue.js 支持两种不同风格的调用组件的 API：过程式的基于构造函数的 API，以及基于模板的声明式的 Web Components 风格 API。如果你感到困惑，想一下通过 new Image() 和通过 <img> 标签这两种创建图片元素的方式。 -->

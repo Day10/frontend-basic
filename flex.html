@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="root">
+      <div class="example">
+        <h2>flex</h2>
+        <dl>
+          <dt>flex-direction</dt>
+          <dd>
+            注意每个item的宽和高都是400*100，但是这里默认把他们挤在了一排，因为flex-wrap默认值是nowrap，也就是不换行
+          </dd>
+          <dt>flex-wrap</dt>
+          <dd>疑问：wrap-reverse为什么元素都偏右？</dd>
+        </dl>
+        <ul>
+          <li>
+            flex-derection
+            <label v-for="item in flexDirectionOptions" :key="item">
+              <input
+                type="radio"
+                :value="item"
+                v-model="flexContainer.flexDirection"
+              />
+              {{ item }}
+            </label>
+          </li>
+          <li>
+            flex-wrap
+            <label v-for="item in flexWrapOptions" :key="item">
+              <input
+                type="radio"
+                :value="item"
+                v-model="flexContainer.flexWrap"
+              />
+              {{ item }}
+            </label>
+          </li>
+          <li>
+            justify-content
+            <label v-for="item in justifyContentOptions" :key="item">
+              <input
+                type="radio"
+                :value="item"
+                v-model="flexContainer.justifyContent"
+              />
+              {{ item }}
+            </label>
+          </li>
+          <li>
+            align-items
+            <label v-for="item in alignItemsOptions" :key="item">
+              <input
+                type="radio"
+                :value="item"
+                v-model="flexContainer.alignItems"
+              />
+              {{ item }}
+            </label>
+          </li>
+          <li>
+            align-content
+            <label v-for="item in alignContentOptions" :key="item">
+              <input
+                type="radio"
+                :value="item"
+                v-model="flexContainer.alignContent"
+              />
+              {{ item }}
+            </label>
+          </li>
+        </ul>
+
+        <div class="container" :style="flexContainer">
+          <div
+            class="item"
+            v-for="item in itemArr"
+            :key="item.key"
+            :style="item"
+          >
+            {{item.key}}
+            <dl class="itemDl">
+              <dt>order：</dt>
+              <dd>
+                <button @click="item.order -= 1">-</button>
+                {{item.order}}
+                <button @click="item.order += 1">+</button>
+              </dd>
+              <dt>flex-grow</dt>
+              <dd>
+                <button @click="item.flexGrow -= 1">-</button>
+                {{item.flexGrow}}
+                <button @click="item.flexGrow += 1">+</button>
+              </dd>
+              <dt>flex-shrink</dt>
+              <dd>
+                <button @click="item.flexShrink -= 1">-</button>
+                {{item.flexShrink}}
+                <button @click="item.flexShrink += 1">+</button>
+              </dd>
+              <dt>flex-basis</dt>
+              <dd>
+                <button
+                  @click="item.flexBasis === 'auto' ? item.flexBasis = -1 : item.flexBasis -= 1"
+                >
+                  -
+                </button>
+                {{item.flexBasis}}
+                <button
+                  @click="item.flexBasis === 'auto' ? item.flexBasis = 1 : item.flexBasis += 1"
+                >
+                  +
+                </button>
+              </dd>
+              <dd>
+                <label>
+                  <input type="radio" value="auto" v-model="item.flexBasis" />
+                  auto
+                </label>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  new Vue({
+    el: "#root",
+    data() {
+      return {
+        flexContainer: {
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
+          alignContent: "flex-start"
+        },
+        flexDirectionOptions: [
+          "row",
+          "row-reverse",
+          "column",
+          "column-reverse"
+        ],
+        itemArr: [
+          {
+            key: 1,
+            order: 0,
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: "auto"
+          },
+          {
+            key: 2,
+            order: 0,
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: "auto"
+          },
+          {
+            key: 3,
+            order: 0,
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: "auto"
+          },
+          {
+            key: 4,
+            order: 0,
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: "auto"
+          },
+          {
+            key: 5,
+            order: 0,
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: "auto"
+          }
+        ],
+        flexWrapOptions: ["nowrap", "wrap", "wrap-reverse"],
+        justifyContentOptions: [
+          "flex-start",
+          "flex-end",
+          "center",
+          "space-between",
+          "space-around"
+        ],
+        alignItemsOptions: [
+          "flex-start",
+          "flex-end",
+          "center",
+          "baseline",
+          "stretch"
+        ],
+        alignContentOptions: [
+          "flex-start",
+          "flex-end",
+          "center",
+          "space-between",
+          "space-around",
+          "stretch"
+        ]
+        // justifyContentOptions: ['', '', '', '', '', ''],
+        // justifyContentOptions: ['', '', '', '', '', ''],
+      };
+    }
+  });
+</script>
+<style>
+  .container {
+    display: flex;
+  }
+
+  .item {
+    width: 400px;
+    height: 400px;
+    background-color: chocolate;
+    border: 2px solid black;
+    font-size: 40px;
+  }
+  .itemDl {
+    font-size: 12px;
+    color: white;
+  }
+</style>
