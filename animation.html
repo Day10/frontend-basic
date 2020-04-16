@@ -4,19 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
+  <title>动画的N种方式</title>
 </head>
 
 <body>
-  <button id=='start'>start</button>
+  <button id='start'>start</button>
   <button id='stop'>stop</button>
+  <div id='box'></div>
 </body>
 
 </html>
 
 <script>
+// 1. requestAnimationFrame
 var globalID;
 
-function repeat() {
+function repeat(timeStap) {
+  console.log(timeStap) //  差是 16.66ms；因为1s重绘60次（60 frame per second）,每次16.66
   $("<div />").appendTo("body");
   // 若你想在浏览器下次重绘之前继续更新下一帧动画，那么回调函数自身必须再次调用window.requestAnimationFrame()
   globalID = requestAnimationFrame(repeat);
@@ -34,4 +38,25 @@ div {
   background: pink;
   float: left;
 }
+button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+#stop{
+  left: 80px;
+}
+#box{
+  width: 20px;
+  height: 20px;
+  opacity: 0.3;
+  transition: width 6s, height 6s, opacity 6s;
+}
+#box:hover{
+  width: 200px;
+  height: 200px;
+  opacity: 1;
+}
+
 </style>
+
