@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html *{
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="root">
+    <section id="height">
+      <style>
+        /* MDN的例子 可以区分盒模型和IE模型 https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-sizing */
+        /* 盒模型分为标准盒和IE盒 */
+        /* box-sizing: content-box; box-sizing: border-box;*/
+        /* ！！！这里的width 是指style里面的width */
+        /* 标准盒的宽度是 width = content */
+        /* border盒宽度是 width = content + padding + border */
+        /* 问：.height的高度是多少 答： 320 = height + padding*2 +border*2 */
+        /* .height-child的实际使用占用面积就是320而不是420，因为margin不算在他的实际占用面积里面，他控制的是位置 */
+        
+        #height{
+          background-color: yellow;
+        }
+        .height-child{
+          height: 100px;
+          padding: 100px;
+          margin-top: 100px;
+          background-color: green;
+          border: 10px solid orange;
+        }
+      </style>
+      <div class="height-child"></div>
+    </section>
+    <section id="sec">
+      <style>
+        #sec {
+          background-color: yellowgreen;
+        }
+        .child {
+          background-color: pink;
+          height: 100px;
+          margin-top: 10px;
+        }
+        
+      </style>
+      <article class="child"></article>
+    </section>
+    
+    <section id="margin">
+      <style>
+        #margin{
+          background-color: purple;
+          overflow: hidden;
+        }
+        /* 边距重叠的时候，取最大值，这里上边距5下边距25，重叠后是25 */
+        #margin>p{
+          margin: 5px auto 25px;
+          background-color: cornflowerblue;
+        }
+      </style>
+      <p>1</p>
+      <p>2</p>
+      <!-- 创建bfc，边距不重叠 -->
+      <div style='overflow: hidden;'>
+        <p>3</p>
+      </div>
+      <p>4</p>
+    </section>
+  </div>
+</body>
+</html>
